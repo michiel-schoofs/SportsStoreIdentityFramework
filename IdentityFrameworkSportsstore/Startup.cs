@@ -36,10 +36,12 @@ namespace IdentityFrameworkSportsstore {
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddScoped<SportsStoreDataInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,SportsStoreDataInitializer initializer) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
@@ -48,6 +50,8 @@ namespace IdentityFrameworkSportsstore {
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            initializer.InitializeData();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
