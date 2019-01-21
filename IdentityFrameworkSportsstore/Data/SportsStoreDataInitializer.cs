@@ -1,18 +1,28 @@
 ﻿using IdentityFrameworkSportsstore.Models.Domain;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace IdentityFrameworkSportsstore.Data {
     public class SportsStoreDataInitializer {
         private readonly ApplicationDbContext _dbContext;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public SportsStoreDataInitializer(ApplicationDbContext dbContext) {
+        public SportsStoreDataInitializer(ApplicationDbContext dbContext,UserManager<IdentityUser> manager) {
             _dbContext = dbContext;
+            _userManager = manager;
         }
 
-        public void InitializeData() {
+
+        public async Task InitializeData() {
             _dbContext.Database.EnsureDeleted();
             if (_dbContext.Database.EnsureCreated()) {
+
+                var mail = "admin@sportsstore.be";
+                IdentityUser user = new IdentityUser() { Email = mail, UserName = mail };
+                await _userManager.CreateAsync(user, "P@ssword1");
+
                 Category watersports = new Category("WaterSports");
                 Category soccer = new Category("Soccer");
                 Category chess = new Category("Chess");
@@ -52,6 +62,11 @@ namespace IdentityFrameworkSportsstore.Data {
                         klant.PlaceOrder(cart, DateTime.Today.AddDays(10), false, klant.Street, klant.City);
                     }
                     _dbContext.Customers.Add(klant);
+
+                    mail = $"{klant.CustomerName}@hogent.be";
+                    IdentityUser kl = new IdentityUser() { UserName = mail, Email = mail };
+                    await _userManager.CreateAsync(kl, "P@ssword1");
+
                 }
                 _dbContext.SaveChanges();
             }

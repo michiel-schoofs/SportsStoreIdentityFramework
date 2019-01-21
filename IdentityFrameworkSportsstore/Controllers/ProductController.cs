@@ -59,15 +59,13 @@ namespace IdentityFrameworkSportsstore.Controllers {
                         _categoryRepository.GetById(m.CategoryId), m.Availability, m.AvailableTill);
                     _productRepository.SaveChanges();
                     TempData["Message"] = $"Product {pr.Name} bewerkt.";
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (Exception e) {
-                    if (e is ArgumentException)
-                        TempData["Error"] = $"Je gaf een ongeldige waarde:\n{e.Message}";
-                    else
-                        TempData["Error"] = "Er ging iets fout met het editeren.";
+                    ModelState.AddModelError("",e.Message);
                 }
-                return RedirectToAction(nameof(Index));
             }
+
             ViewData["Edit"] = true;
             AddSelectList();
             return View(nameof(Edit), m);

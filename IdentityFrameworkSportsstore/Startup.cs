@@ -53,7 +53,7 @@ namespace IdentityFrameworkSportsstore {
                 app.UseHsts();
             }
 
-            initializer.InitializeData();
+            initializer.InitializeData().Wait();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
