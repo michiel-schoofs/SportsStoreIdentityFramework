@@ -1,0 +1,48 @@
+﻿@model IEnumerable<IdentityFrameworkSportsstore.Models.Domain.CartLine>
+
+@{
+    ViewData["Title"] = "Your cart";
+}
+
+<h2>@(ViewData["Title"])</h2>
+<table class="table">
+    <tr>
+        <th>Quantity</th>
+        <th>Item</th>
+        <th class="text-right">Price</th>
+        <th class="text-right">SubTotal</th>
+        <th></th>
+    </tr>
+    @{ 
+        foreach (var item in Model) {
+            <tr>
+                <td>@item.Quantity</td>
+                <td>@item.Product.Name</td>
+                <td class="text-right">@(item.Product.Price) &euro;</td>
+                <td class="text-right">@(item.Total) &euro;</td>
+                <td>
+                    <form class="form-inline text-right" method="post">
+                        <button type="submit" formaction="/Cart/Plus/@(item.Product.ProductId)" class="btn btn-xs">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        <button type="submit" formaction="/Cart/Min/@(item.Product.ProductId)" class="btn btn-xs">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                        <button type="submit" formaction="/Cart/Remove/@(item.Product.ProductId)" class="btn btn-xs">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            
+        }
+    }
+</table>
+<p>@($"Total:\t{ViewData["Total"]} ")&euro;</p>
+<a class="btn btn-default col-lg-offset-4" asp-action="Index" asp-controller="Store">
+    Continue Shopping
+</a>
+<a class="btn btn-default" asp-action="CheckOut">
+    Check out
+</a>
+

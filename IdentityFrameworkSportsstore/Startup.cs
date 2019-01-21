@@ -34,6 +34,7 @@ namespace IdentityFrameworkSportsstore {
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSession();
 
             services.AddScoped<SportsStoreDataInitializer>();
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -58,12 +59,13 @@ namespace IdentityFrameworkSportsstore {
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseSession();
             app.UseAuthentication();
 
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Store}/{action=Index}/{id?}");
             });
         }
     }
