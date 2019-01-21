@@ -25,13 +25,15 @@ namespace IdentityFrameworkSportsstore.Data {
                     new Product("Stadium", 800, soccer, "Flat-packed 35000-seat stadium"),
                     new Product("Running shoes", 95, soccer, "Protective and fashionable"),
                     new Product("Surf board", 275, watersports, "A boat for one person"),
-                    new Product("Kayak", 170, watersports, "High quality",true,Availability.OnlineOnly),
-                    new Product("Lifejacket", 49, watersports, "Protective and fashionable",true,Availability.ShopOnly),
+                    new Product("Kayak", 170, watersports, "High quality", true, Availability.OnlineOnly, DateTime.Today.AddDays(14)),
+                    new Product("Lifejacket", 49, watersports, "Protective and fashionable", true, Availability.ShopOnly),
                     new Product("Thinking cap", 16, chess, "Improve your brain efficiency by 75%"),
                     new Product("Unsteady chair", 30, chess, "Secretly give your opponent a disadvantage"),
                     new Product("Human chess board", 75, chess, "A fun game for the whole extended family!"),
                     new Product("Bling-bling King", 1200, chess, "Gold plated, diamond-studded king", false)
                 };
+                _dbContext.Products.AddRange(products);
+
                 _dbContext.Products.AddRange(products);
 
                 City gent = new City("9000", "Gent");

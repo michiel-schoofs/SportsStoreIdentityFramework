@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityFrameworkSportsstore", "IdentityFrameworkSportsstore\IdentityFrameworkSportsstore.csproj", "{43157E3E-1393-4681-8CF2-934E6BAD0A0D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityFarmeworkSportsstore.Tests", "IdentityFarmeworkSportsstore.Tests\IdentityFarmeworkSportsstore.Tests.csproj", "{A15C0F8B-4022-4BB1-9EAF-D5C7FA24CB48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{43157E3E-1393-4681-8CF2-934E6BAD0A0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43157E3E-1393-4681-8CF2-934E6BAD0A0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43157E3E-1393-4681-8CF2-934E6BAD0A0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A15C0F8B-4022-4BB1-9EAF-D5C7FA24CB48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A15C0F8B-4022-4BB1-9EAF-D5C7FA24CB48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A15C0F8B-4022-4BB1-9EAF-D5C7FA24CB48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A15C0F8B-4022-4BB1-9EAF-D5C7FA24CB48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

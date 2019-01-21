@@ -30,7 +30,7 @@ namespace IdentityFrameworkSportsstore.Filters {
 
             if (s != null) {
                 foreach (CartLine cl in JsonConvert.DeserializeObject<Cart>(s).CartLines) {
-                    c.AddLine(_productRepository.GetProductById(cl.Product.ProductId), cl.Quantity);
+                    c.AddLine(_productRepository.GetById(cl.Product.ProductId), cl.Quantity);
                 }
             }
 

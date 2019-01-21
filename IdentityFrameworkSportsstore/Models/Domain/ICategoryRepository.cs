@@ -3,8 +3,8 @@
 namespace IdentityFrameworkSportsstore.Models.Domain {
     public interface ICategoryRepository {
         #region Methods
-        IEnumerable<Category> GetAllCategories();
-        Category GetCategoryById(int id); 
+        IEnumerable<Category> GetAll();
+        Category GetById(int id); 
         #endregion
     }
 }

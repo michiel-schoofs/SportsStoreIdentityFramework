@@ -6,7 +6,7 @@ using System.Linq;
 namespace IdentityFrameworkSportsstore.Data.Repositories {
     public class ProductRepository : IProductRepository {
         #region Fields
-        private DbSet<Product> _products;
+        private readonly DbSet<Product> _products;
         private ApplicationDbContext _context; 
         #endregion
 
@@ -18,11 +18,11 @@ namespace IdentityFrameworkSportsstore.Data.Repositories {
         #endregion
 
         #region Methods
-        public void AddProduct(Product pr) {
+        public void Add(Product pr) {
             _context.Products.Add(pr);
         }
 
-        public IEnumerable<Product> GetAllProducts() {
+        public IEnumerable<Product> GetAll() {
             return _context.Products.ToList();
         }
 
@@ -34,11 +34,11 @@ namespace IdentityFrameworkSportsstore.Data.Repositories {
             return _context.Products.Include(p => p.Category).Where(p => p.Category.CategoryId == catId).ToList();
         }
 
-        public Product GetProductById(int id) {
+        public Product GetById(int id) {
             return _context.Products.Include(p=>p.Category).FirstOrDefault(p => p.ProductId == id);
         }
 
-        public void RemoveProduct(Product pr) {
+        public void Delete(Product pr) {
             _context.Products.Remove(pr);
         }
 

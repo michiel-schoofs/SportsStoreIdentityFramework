@@ -2,12 +2,12 @@
 namespace IdentityFrameworkSportsstore.Models.Domain {
     public interface IProductRepository {
         #region Methods
-        IEnumerable<Product> GetAllProducts();
+        IEnumerable<Product> GetAll();
         IEnumerable<Product> GetByCategory(int catId);
         ICollection<Product> GetByAvailability(Availability availability);
-        Product GetProductById(int id);
-        void AddProduct(Product pr);
-        void RemoveProduct(Product pr);
+        Product GetById(int id);
+        void Add(Product pr);
+        void Delete(Product pr);
         void SaveChanges(); 
         #endregion
     }

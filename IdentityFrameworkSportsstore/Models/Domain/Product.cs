@@ -11,6 +11,7 @@ namespace IdentityFrameworkSportsstore.Models.Domain {
         private string _name;
         private decimal _price;
         private Category _category;
+        private DateTime? _availableTill;
         #endregion
 
         #region Properties
@@ -41,6 +42,14 @@ namespace IdentityFrameworkSportsstore.Models.Domain {
                 _category = value ?? throw new ArgumentException("You must specify a category for a product");
             }
         }
+        public DateTime? AvailableTill {
+            get => _availableTill;
+            private set {
+                if (value.HasValue && value.Value <= DateTime.Today)
+                    throw new ArgumentException("Available till must be a future date");
+                _availableTill = value;
+            }
+        }
 
         public string Description { get; private set; }
         public bool InStock { get; private set; }
@@ -48,15 +57,18 @@ namespace IdentityFrameworkSportsstore.Models.Domain {
         #endregion
 
         #region Constructors
-        public Product(string name, decimal price, Category category, string description = null, bool inStock = true,Availability availability=Availability.ShopAndOnline) {
+        public Product(string name, decimal price, Category category, string description = null, bool inStock = true, Availability availability = Availability.ShopAndOnline, DateTime? availableTill = null) {
             InStock = inStock;
             Name = name;
             Price = price;
-            Availability = availability;
             Description = description;
+            Availability = availability;
+            AvailableTill = availableTill;
             Category = category;
             category.AddProduct(this);
         }
+
+
 
         [JsonConstructor]
         public Product(int productId) {
@@ -77,13 +89,16 @@ namespace IdentityFrameworkSportsstore.Models.Domain {
             return HashCode.Combine(ProductId);
         }
 
-        public void EditProduct(Category cat, string name,string desc,decimal price, bool inStock,Availability availability) {
-            Category = cat;
+        public void EditProduct(string name, string description, decimal price, bool inStock, Category category, Availability availability, DateTime? availableTill) {
             Name = name;
-            Description = desc;
+            Description = description;
             Price = price;
             InStock = inStock;
             Availability = availability;
+            AvailableTill = availableTill;
+            Category.RemoveProduct(this);
+            Category = category;
+            Category.AddProduct(this);
         }
         #endregion
     }

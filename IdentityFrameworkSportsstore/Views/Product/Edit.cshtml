@@ -1,43 +1,64 @@
-﻿@model IdentityFrameworkSportsstore.Models.ProductViewModels.EditViewModel
+﻿@using IdentityFrameworkSportsstore.Models.ProductViewModels;
+@using IdentityFrameworkSportsstore.Helpers;
+@using IdentityFrameworkSportsstore.Models.Domain;
+
+@model EditViewModel
 @{
     ViewData["Title"] = ((bool)ViewData["Edit"]) ? "Edit Product" : "Create Product";
 }
 
+@section Scripts{ 
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
+
 <h2>@ViewData["Title"]</h2>
 <form method="post">
+    <div asp-validation-summary="All">
+
+    </div>
     <div class="form-group">
         <label asp-for="Name">Name</label>
         <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Description">Description</label>
-        <input asp-for="Description" class="form-control"/>
+        <input asp-for="Description" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="Price">Price</label>
-        <input asp-for="Price" class="form-control"/>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="InStock">In Stock</label>
-        <input asp-for="InStock"/>
+        <input asp-for="InStock" />
     </div>
-    @{ 
+    @{
         if (!(bool)ViewData["Edit"]) {
             <div class="form-group">
                 <label asp-for="Availability">Availability</label>
-                <select asp-for="Availability" 
-                 asp-items="Html.GetEnumSelectList<IdentityFrameworkSportsstore.Models.Domain.Availability>()"
-                 class="form-control">
-
-                </select>
+                <select asp-for="Availability"
+                        asp-items="EnumHelpers.ToSelectList<Availability>()"
+                        class="form-control"></select>
+                <span asp-validation-for="Availability" class="text-danger"></span>
             </div>
         }
     }
+
     <div class="form-group">
-        <label asp-for="CategoryId">Category</label> 
+        <label asp-for="AvailableTill">Available till</label>
+        <input asp-for="AvailableTill"  class="form-control"/>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CategoryId">Category</label>
         <select asp-for="CategoryId" asp-items="@(ViewData["Categories"] as SelectList)" class="form-control">
             <option value="">--select category--</option>
         </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
     <a asp-action="Index" class="btn btn-default">Cancel</a>

@@ -3,7 +3,7 @@ using IdentityFrameworkSportsstore.Filters;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
-namespace SportsStoreCrud.Controllers {
+namespace IdentityFrameworkSportsstore.Controllers {
     [ServiceFilter(typeof(CartSessionFilter))]
     public class CartController : Controller
     {
@@ -33,7 +33,7 @@ namespace SportsStoreCrud.Controllers {
         }
 
         public IActionResult Add(int id, int quantity, Cart cart) {
-            Product pr = _productRepository.GetProductById(id);
+            Product pr = _productRepository.GetById(id);
 
             if (pr == null)
                 TempData["Error"] = "We couldn't find the product you're trying to add";
@@ -48,7 +48,7 @@ namespace SportsStoreCrud.Controllers {
         [HttpPost]
         public IActionResult Remove(int id, Cart cart) {
 
-            Product pr = _productRepository.GetProductById(id);
+            Product pr = _productRepository.GetById(id);
             if (pr != null) {
                 TempData["Message"] = $"Deleted product {pr.Name} from cart.";
                 cart.RemoveLine(pr);
@@ -57,15 +57,15 @@ namespace SportsStoreCrud.Controllers {
             return RedirectToAction(nameof(CartController.Index));
         }
 
-        [HttpPost,ActionName("plus")]
-        public IActionResult IncreaseQuantity(int id,Cart cart) {
+        [HttpPost,ActionName("Plus")]
+        public IActionResult Plus(int id,Cart cart) {
             CartLine cl = cart.CartLines.FirstOrDefault(cal => cal.Product.ProductId == id);
             cl.Quantity++;
             return RedirectToAction(nameof(CartController.Index));
         }
 
-        [HttpPost, ActionName("min")]
-        public IActionResult DecreaseQuantity(int id, Cart cart) {
+        [HttpPost, ActionName("Min")]
+        public IActionResult Min(int id, Cart cart) {
             CartLine cl = cart.CartLines.FirstOrDefault(cal => cal.Product.ProductId == id);
             cl.Quantity--;
             return RedirectToAction(nameof(CartController.Index));

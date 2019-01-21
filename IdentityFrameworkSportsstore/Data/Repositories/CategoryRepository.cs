@@ -16,11 +16,11 @@ namespace IdentityFrameworkSportsstore.Data.Repositories {
         #endregion
 
         #region Methods
-        public IEnumerable<Category> GetAllCategories() {
+        public IEnumerable<Category> GetAll() {
             return _categories.ToList();
         }
 
-        public Category GetCategoryById(int id) {
+        public Category GetById(int id) {
             return _categories.FirstOrDefault(c => c.CategoryId == id);
         } 
         #endregion

@@ -1,4 +1,5 @@
 ﻿@using IdentityFrameworkSportsstore.Models.Domain;
+@using IdentityFrameworkSportsstore.Helpers;
 
 @model IEnumerable<Product>
 
@@ -36,7 +37,7 @@
                 <td class="text-center">
                     <input type="checkbox" @(item.InStock ? "checked" : "") disabled="disabled" />
                 </td>
-                <td>@(IdentityFrameworkSportsstore.Helpers.EnumHelpers.GetDisplayName<Availability>(item.Availability))</td>
+                <td>@(EnumHelpers.GetDisplayName<Availability>(item.Availability))</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@(item.ProductId)">Edit</a>|
                     <a asp-action="Delete" asp-route-id="@(item.ProductId)">Delete</a>
