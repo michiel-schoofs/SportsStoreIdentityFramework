@@ -128,6 +128,53 @@ namespace IdentityFrameworkSportsstore.Tests.Controllers {
             var action = _productController.Edit(2, productVm) as RedirectToActionResult;
             Assert.Equal("Index", action?.ActionName);
         }
+
+        [Fact]
+        public void EditHttpPost_ProductNotFound_ReturnsNotFoundResult() {
+            _mockProductRepository.Setup(pr => pr.GetById(It.IsAny<int>())).Returns(null as Product);
+            var nfr = _productController.Edit(2, new EditViewModel(_dummyContext.RunningShoes));
+            Assert.IsType<NotFoundResult>(nfr);
+        }
+
+        [Fact]
+        public void EditHttpPost_ModelStateErrors_DoesNotChangeNorPersistTheProduct() {
+            Product pro = _dummyContext.Football;
+            _mockProductRepository.Setup(pr => pr.GetById(It.IsAny<int>())).Returns(pro);
+            EditViewModel evm = new EditViewModel(_dummyContext.Football) { Price = 50 };
+            _productController.ModelState.AddModelError("", "sqdklfmjqsd");
+
+            _productController.Edit(2, evm);
+
+            Assert.NotEqual(50, pro.Price);
+            _mockProductRepository.Verify(p => p.SaveChanges(), Times.Never);
+        }
+
+        [Fact]
+        public void EditHttpPost_ModelStateErrors_PassesEditViewModelInViewResultModel() {
+            _mockProductRepository.Setup(pr => pr.GetById(It.IsAny<int>())).Returns(_dummyContext.Football);
+            EditViewModel evm = new EditViewModel(_dummyContext.Football) { Price = 50 };
+            _productController.ModelState.AddModelError("", "sqdklfmjqsd");
+
+            var x = _productController.Edit(2, evm);
+
+            Assert.IsType<ViewResult>(x);
+            Assert.Equal(evm, (x as ViewResult).Model);
+        }
+
+        [Fact]
+        public void EditHttpPost_ModelStateErrors_PassesSelectListsInViewData() {
+            _mockProductRepository.Setup(p => p.GetById(1)).Returns(_dummyContext.RunningShoes);
+            _mockCategoryRepository.Setup(c => c.GetAll()).Returns(_dummyContext.Categories);
+            EditViewModel evm = new EditViewModel(_dummyContext.Football) { Price = 50 };
+            _productController.ModelState.AddModelError("", "sqdklfmjqsd");
+
+            var result = _productController.Edit(1, evm);
+            Assert.IsType<ViewResult>(result);
+
+            var categories = (result as ViewResult)?.ViewData["Categories"] as SelectList;
+
+            Assert.Equal(3, categories.Count());
+        }
         #endregion
 
         #region == Create ==

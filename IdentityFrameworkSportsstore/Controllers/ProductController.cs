@@ -48,19 +48,29 @@ namespace IdentityFrameworkSportsstore.Controllers {
 
         [HttpPost]
         public IActionResult Edit(int id, EditViewModel m) {
-            try {
-                Product pr = _productRepository.GetById(id);
-                pr.EditProduct(m.Name, m.Description, m.Price, m.InStock,
-                    _categoryRepository.GetById(m.CategoryId), m.Availability,m.AvailableTill);
-                _productRepository.SaveChanges();
-                TempData["Message"] = $"Product {pr.Name} bewerkt.";
-            }catch (Exception e) {
-                if(e is ArgumentException)
-                    TempData["Error"] = $"Je gaf een ongeldige waarde:\n{e.Message}";
-                else
-                    TempData["Error"] = "Er ging iets fout met het editeren.";
+            if (ModelState.IsValid) {
+                try {
+                    Product pr = _productRepository.GetById(id);
+
+                    if (pr == null)
+                        return NotFound();
+
+                    pr.EditProduct(m.Name, m.Description, m.Price, m.InStock,
+                        _categoryRepository.GetById(m.CategoryId), m.Availability, m.AvailableTill);
+                    _productRepository.SaveChanges();
+                    TempData["Message"] = $"Product {pr.Name} bewerkt.";
+                }
+                catch (Exception e) {
+                    if (e is ArgumentException)
+                        TempData["Error"] = $"Je gaf een ongeldige waarde:\n{e.Message}";
+                    else
+                        TempData["Error"] = "Er ging iets fout met het editeren.";
+                }
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            ViewData["Edit"] = true;
+            AddSelectList();
+            return View(nameof(Edit), m);
         }
 
         public IActionResult Create() {
